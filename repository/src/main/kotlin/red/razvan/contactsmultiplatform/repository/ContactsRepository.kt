@@ -1,4 +1,4 @@
-package red.razvan.hello.kotlinmultiplatform.contacts.repository
+package red.razvan.contactsmultiplatform.repository
 
 class ContactsRepository {
     private val contacts: MutableMap<ContactId, Contact> = mockContacts

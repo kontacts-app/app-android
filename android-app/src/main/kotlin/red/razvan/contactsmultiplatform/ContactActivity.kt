@@ -1,4 +1,4 @@
-package red.razvan.hello.kotlinmultiplatform.contacts
+package red.razvan.contactsmultiplatform
 
 import android.content.Context
 import android.content.Intent
@@ -12,8 +12,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import red.razvan.hello.kotlinmultiplatform.contacts.databinding.ContactActivityBinding
-import red.razvan.hello.kotlinmultiplatform.contacts.repository.ContactId
+import red.razvan.contactsmultiplatform.databinding.ContactActivityBinding
+import red.razvan.contactsmultiplatform.repository.ContactId
 
 class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityCallbacks {
 
@@ -75,8 +75,7 @@ class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityC
     private fun showEditContactDialog() {
         val name = viewModel.contact.value?.name ?: return
 
-        EditContactDialogFragment
-            .newInstance(mode = EditContactDialogFragment.Mode.Edit(contactName = name))
+        EditContactDialogFragment.newInstance(mode = EditContactDialogFragment.Mode.Edit(contactName = name))
             .show(supportFragmentManager, "edit-contact")
     }
 

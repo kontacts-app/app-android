@@ -1,4 +1,4 @@
-package red.razvan.hello.kotlinmultiplatform.contacts
+package red.razvan.contactsmultiplatform
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import red.razvan.hello.kotlinmultiplatform.contacts.databinding.ContactListItemBinding
-import red.razvan.hello.kotlinmultiplatform.contacts.databinding.ContactsActivityBinding
-import red.razvan.hello.kotlinmultiplatform.contacts.repository.Contact
+import red.razvan.contactsmultiplatform.databinding.ContactListItemBinding
+import red.razvan.contactsmultiplatform.databinding.ContactsActivityBinding
+import red.razvan.contactsmultiplatform.repository.Contact
 
 class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.ActivityCallbacks {
 

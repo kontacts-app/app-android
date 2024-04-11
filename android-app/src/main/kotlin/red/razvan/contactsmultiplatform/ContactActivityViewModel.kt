@@ -1,15 +1,14 @@
-package red.razvan.hello.kotlinmultiplatform.contacts
+package red.razvan.contactsmultiplatform
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import red.razvan.hello.kotlinmultiplatform.contacts.repository.Contact
-import red.razvan.hello.kotlinmultiplatform.contacts.repository.ContactId
-import red.razvan.hello.kotlinmultiplatform.contacts.repository.ContactsRepository
+import red.razvan.contactsmultiplatform.repository.Contact
+import red.razvan.contactsmultiplatform.repository.ContactId
+import red.razvan.contactsmultiplatform.repository.ContactsRepository
 
 class ContactActivityViewModel(
     private val id: ContactId,

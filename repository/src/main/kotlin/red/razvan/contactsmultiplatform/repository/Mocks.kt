@@ -1,4 +1,4 @@
-package red.razvan.hello.kotlinmultiplatform.contacts.repository
+package red.razvan.contactsmultiplatform.repository
 
 internal val mockContacts = listOf(
     Contact(name = "Razvan"),

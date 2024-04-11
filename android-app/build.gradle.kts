@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    namespace = "red.razvan.hello.kotlinmultiplatform.contacts"
+    namespace = "red.razvan.contactsmultiplatform"
 
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "red.razvan.hello.kotlinmultiplatform.contacts"
+        applicationId = "red.razvan.contactsmultiplatform"
         versionCode = 1
         versionName = "1.0.0"
 
