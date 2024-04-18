@@ -92,11 +92,6 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.refreshData()
-    }
-
     private sealed interface ContactListItem {
         data class Header(val letter: Char) : ContactListItem
 

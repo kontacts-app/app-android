@@ -1,35 +1,52 @@
 package red.razvan.contactsmultiplatform.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
+
 class ContactsRepository {
-    private val contacts: MutableMap<ContactId, Contact> = mockContacts
-        .associateBy(Contact::id)
-        .toMutableMap()
+    private val contacts: MutableStateFlow<Map<ContactId, Contact>> =
+        MutableStateFlow(mockContacts.associateBy(Contact::id))
 
     fun add(newContact: NewContact) {
         val id = ContactId()
-        contacts[id] = Contact(id = id, name = newContact.name)
+        contacts.update { value ->
+            value + (id to Contact(id = id, name = newContact.name))
+        }
     }
 
     fun removeById(id: ContactId) {
-        contacts.remove(id)
+        contacts.update { contacts ->
+            contacts - id
+        }
     }
 
     fun update(contact: Contact) {
-        contacts[contact.id] = contact
+        contacts.update { contacts ->
+            contacts + (contact.id to contact)
+        }
     }
 
-    fun getById(id: ContactId): Contact = requireNotNull(contacts[id])
-
-    fun getAll(): List<ContactsSection> =
+    fun observeById(id: ContactId): Flow<Contact?> =
         contacts
-            .values
-            .asSequence()
-            .sortedBy(Contact::name)
-            .groupBy { contact ->
-                contact.name.first()
+            .map { contacts ->
+                contacts[id]
             }
-            .map {
-                ContactsSection(initial = it.key, contacts = it.value)
+
+    fun observeSections(): Flow<List<ContactsSection>> =
+        contacts
+            .map { contacts ->
+                contacts
+                    .values
+                    .asSequence()
+                    .sortedBy(Contact::name)
+                    .groupBy { contact ->
+                        contact.name.first()
+                    }
+                    .map {
+                        ContactsSection(initial = it.key, contacts = it.value)
+                    }
+                    .sortedBy(ContactsSection::initial)
             }
-            .sortedBy(ContactsSection::initial)
 }

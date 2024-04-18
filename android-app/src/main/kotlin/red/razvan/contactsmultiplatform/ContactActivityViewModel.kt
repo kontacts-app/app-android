@@ -2,11 +2,10 @@ package red.razvan.contactsmultiplatform
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import red.razvan.contactsmultiplatform.repository.Contact
 import red.razvan.contactsmultiplatform.repository.ContactId
 import red.razvan.contactsmultiplatform.repository.ContactsRepository
 
@@ -15,25 +14,14 @@ class ContactActivityViewModel(
     private val repository: ContactsRepository
 ): ViewModel() {
 
-    private val mutableContact = MutableStateFlow<Contact?>(null)
-    val contact = mutableContact.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            refreshData()
-        }
-    }
+    val contact = repository.observeById(id = id)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     fun editContact(contactName: String) {
         viewModelScope.launch {
             val contact = contact.first()?.copy(name = contactName) ?: return@launch
             repository.update(contact)
-            refreshData()
         }
-    }
-
-    private suspend fun refreshData() {
-        mutableContact.emit(repository.getById(id))
     }
 
     fun deleteContact() {
