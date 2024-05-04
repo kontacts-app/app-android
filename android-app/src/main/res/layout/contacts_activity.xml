@@ -34,9 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="72dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/contact_list_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_contact_button"

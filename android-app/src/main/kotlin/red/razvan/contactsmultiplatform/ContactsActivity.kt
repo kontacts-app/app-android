@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -60,6 +61,14 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
                     bottomMargin = insets.bottom + fabDefaultMarginsPixelSize
                     rightMargin = insets.right + fabDefaultMarginsPixelSize
                 }
+                windowInsets
+            }
+
+            ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { v, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.updatePadding(
+                    bottom = insets.bottom,
+                )
                 windowInsets
             }
 
