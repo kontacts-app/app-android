@@ -25,7 +25,6 @@ import red.razvan.contactsmultiplatform.databinding.ContactsActivityBinding
 import red.razvan.contactsmultiplatform.repository.Contact
 
 class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.ActivityCallbacks {
-
     private val viewModel: ContactsActivityViewModel by viewModel()
 
     private lateinit var binding: ContactsActivityBinding
@@ -40,19 +39,20 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
         binding = ContactsActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = ContactListItemsAdapter {
-            startActivity(
-                ContactActivity.newIntent(context = this@ContactsActivity, id = it.id)
-            )
-        }
+        val adapter =
+            ContactListItemsAdapter {
+                startActivity(
+                    ContactActivity.newIntent(context = this@ContactsActivity, id = it.id),
+                )
+            }
 
         with(binding) {
             recyclerView.adapter = adapter
             recyclerView.addItemDecoration(
                 MaterialDividerItemDecoration(
                     this@ContactsActivity,
-                    (recyclerView.layoutManager as LinearLayoutManager).orientation
-                )
+                    (recyclerView.layoutManager as LinearLayoutManager).orientation,
+                ),
             )
 
             ViewCompat.setOnApplyWindowInsetsListener(addContactButton) { v, windowInsets ->
@@ -91,10 +91,10 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
                                         .plus(
                                             contacts.map { contact ->
                                                 ContactListItem.Element(contact)
-                                            }
+                                            },
                                         )
                                 }
-                                .flatten()
+                                .flatten(),
                         )
                     }
             }
@@ -108,26 +108,35 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
     }
 
     private class ContactListItemsAdapter(
-        private val onContactClickListener: (Contact) -> Unit
+        private val onContactClickListener: (Contact) -> Unit,
     ) :
         ListAdapter<ContactListItem, ContactListItemsAdapter.ViewHolder>(
-            ContactListItemDiffCallback
-        ) {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+                ContactListItemDiffCallback,
+            ) {
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int,
+        ): ViewHolder =
             ViewHolder(
-                binding = ContactListItemBinding
-                    .inflate(LayoutInflater.from(parent.context), parent, false)
+                binding =
+                    ContactListItemBinding
+                        .inflate(LayoutInflater.from(parent.context), parent, false),
             )
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        override fun onBindViewHolder(
+            holder: ViewHolder,
+            position: Int,
+        ) {
             holder.bind(getItem(position), onContactClickListener)
         }
 
         class ViewHolder(
-            private val binding: ContactListItemBinding
+            private val binding: ContactListItemBinding,
         ) : RecyclerView.ViewHolder(binding.root) {
-            fun bind(item: ContactListItem, onContactClickListener: (Contact) -> Unit) {
+            fun bind(
+                item: ContactListItem,
+                onContactClickListener: (Contact) -> Unit,
+            ) {
                 with(binding) {
                     when (item) {
                         is ContactListItem.Element -> {
@@ -153,11 +162,13 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
     private object ContactListItemDiffCallback : DiffUtil.ItemCallback<ContactListItem>() {
         override fun areContentsTheSame(
             oldItem: ContactListItem,
-            newItem: ContactListItem
-        ): Boolean =
-            oldItem == newItem
+            newItem: ContactListItem,
+        ): Boolean = oldItem == newItem
 
-        override fun areItemsTheSame(oldItem: ContactListItem, newItem: ContactListItem): Boolean =
+        override fun areItemsTheSame(
+            oldItem: ContactListItem,
+            newItem: ContactListItem,
+        ): Boolean =
             when {
                 oldItem is ContactListItem.Header && newItem is ContactListItem.Header -> {
                     oldItem.letter == newItem.letter

@@ -11,7 +11,7 @@ fun EditText.showKeyboardOnDialog() {
     postDelayed({
         val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-    }, ShowInputDelayMillis)
+    }, SHOW_INPUT_DELAY_MILLIS)
 }
 
-private const val ShowInputDelayMillis = 1000L
+private const val SHOW_INPUT_DELAY_MILLIS = 1000L

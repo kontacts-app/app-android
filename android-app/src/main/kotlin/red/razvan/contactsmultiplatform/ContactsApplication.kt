@@ -8,7 +8,6 @@ import red.razvan.contactsmultiplatform.repository.ContactId
 import red.razvan.contactsmultiplatform.repository.ContactsRepository
 
 class ContactsApplication : Application() {
-
     override fun onCreate() {
         super.onCreate()
         startKoin {
@@ -19,10 +18,10 @@ class ContactsApplication : Application() {
                     viewModel { (id: ContactId) ->
                         ContactActivityViewModel(
                             id = id,
-                            repository = get()
+                            repository = get(),
                         )
                     }
-                }
+                },
             )
         }
     }

@@ -10,10 +10,10 @@ import red.razvan.contactsmultiplatform.repository.NewContact
 class ContactsActivityViewModel(
     private val repository: ContactsRepository,
 ) : ViewModel() {
-
-    val sections = repository
-        .observeSections()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    val sections =
+        repository
+            .observeSections()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     fun createNewContact(contactName: String) {
         val newContact = NewContact(contactName)

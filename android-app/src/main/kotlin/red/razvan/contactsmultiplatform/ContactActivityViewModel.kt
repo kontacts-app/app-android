@@ -11,11 +11,11 @@ import red.razvan.contactsmultiplatform.repository.ContactsRepository
 
 class ContactActivityViewModel(
     private val id: ContactId,
-    private val repository: ContactsRepository
-): ViewModel() {
-
-    val contact = repository.observeById(id = id)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+    private val repository: ContactsRepository,
+) : ViewModel() {
+    val contact =
+        repository.observeById(id = id)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     fun editContact(contactName: String) {
         viewModelScope.launch {

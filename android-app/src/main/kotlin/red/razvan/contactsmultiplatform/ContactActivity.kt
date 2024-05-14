@@ -16,7 +16,6 @@ import red.razvan.contactsmultiplatform.databinding.ContactActivityBinding
 import red.razvan.contactsmultiplatform.repository.ContactId
 
 class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityCallbacks {
-
     private val id: ContactId by lazy {
         ContactId(value = intent.getStringExtra(IntentKeys.ID)!!)
     }
@@ -84,7 +83,10 @@ class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityC
     }
 
     companion object {
-        fun newIntent(context: Context, id: ContactId): Intent =
+        fun newIntent(
+            context: Context,
+            id: ContactId,
+        ): Intent =
             Intent(context, ContactActivity::class.java)
                 .putExtra(IntentKeys.ID, id.value)
     }

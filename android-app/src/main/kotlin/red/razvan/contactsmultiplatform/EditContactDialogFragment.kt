@@ -17,7 +17,6 @@ import kotlinx.parcelize.Parcelize
 import red.razvan.contactsmultiplatform.databinding.EditContactDialogContentBinding
 
 class EditContactDialogFragment : DialogFragment() {
-
     private var _binding: EditContactDialogContentBinding? = null
     private val binding get() = requireNotNull(_binding)
 
@@ -25,14 +24,15 @@ class EditContactDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments()
-                .getParcelable(BundleKeys.MODE, Mode::class.java)!!
-        } else {
-            @Suppress("DEPRECATION")
-            requireArguments()
-                .getParcelable(BundleKeys.MODE)!!
-        }
+        mode =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requireArguments()
+                    .getParcelable(BundleKeys.MODE, Mode::class.java)!!
+            } else {
+                @Suppress("DEPRECATION")
+                requireArguments()
+                    .getParcelable(BundleKeys.MODE)!!
+            }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
@@ -62,7 +62,7 @@ class EditContactDialogFragment : DialogFragment() {
                             }
                         }
                     }
-                    .root
+                    .root,
             )
             // The listener is set later
             .setPositiveButton(mode.positiveButtonText, null)
@@ -114,7 +114,7 @@ class EditContactDialogFragment : DialogFragment() {
         data object Create : Mode
 
         @Parcelize
-        data class Edit(val contactName: String): Mode
+        data class Edit(val contactName: String) : Mode
     }
 
     interface ActivityCallbacks {
@@ -127,14 +127,16 @@ class EditContactDialogFragment : DialogFragment() {
     }
 
     private val Mode.dialogTitle: String
-        get() = when(this) {
-            Mode.Create -> getString(R.string.edit_contact_dialog_create_title)
-            is Mode.Edit -> getString(R.string.edit_contact_dialog_edit_title)
-        }
+        get() =
+            when (this) {
+                Mode.Create -> getString(R.string.edit_contact_dialog_create_title)
+                is Mode.Edit -> getString(R.string.edit_contact_dialog_edit_title)
+            }
 
     private val Mode.positiveButtonText: String
-        get() = when (this) {
-            Mode.Create -> getString(R.string.edit_contact_dialog_create_button)
-            is Mode.Edit -> getString(R.string.edit_button)
-        }
+        get() =
+            when (this) {
+                Mode.Create -> getString(R.string.edit_contact_dialog_create_button)
+                is Mode.Edit -> getString(R.string.edit_button)
+            }
 }

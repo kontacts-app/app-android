@@ -8,11 +8,13 @@ android-minSdk = "28"
 android-targetSdk = "34"
 android-compileSdk = "34"
 koin = "3.6.0-wasm-alpha2"
+spotless = "6.25.0"
+ktlint = "1.2.1"
 
 [libraries]
 kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu:0.23.2"
 
-androidx-coreKtx = { group = "androidx.core", name = "core-ktx", version = "1.12.0" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.12.0" }
 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.6.1" }
 
@@ -40,3 +42,5 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

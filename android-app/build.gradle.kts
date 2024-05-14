@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.coreKtx)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.google.android.material)
     implementation(libs.androidx.recyclerview)
