@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ assignment, solution ]
+  pull_request:
+  create:
+
+jobs:
+  gradlew-validation:
+    name: "Gradle Wrapper Validation"
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: gradle/wrapper-validation-action@v2.1.1
+
+  android:
+    name: "Build"
+    needs: gradlew-validation
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4.1.0
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3.2.0
+
+      - uses: gradle/gradle-build-action@v3
+        with:
+          cache-disabled: true
+
+      - name: Check formatting & build Android app
+        run: |
+          ./gradlew -Dorg.gradle.jvmargs=-Xmx2048m --stacktrace --continue \
+            spotlessCheck \
+            assemble
+
+      - name: Upload build outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build-outputs
+          path: android-app/app/build/outputs
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-reports
+          path: |
+            **/build/reports/*
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-test-results
+          path: |
+            **/build/test-results/*
