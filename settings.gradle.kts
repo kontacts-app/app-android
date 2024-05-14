@@ -18,6 +18,6 @@ dependencyResolutionManagement {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "hello-kotlinmultiplatform-contacts"
+rootProject.name = "kontacts-android"
 
 include(":android-app", ":repository")
