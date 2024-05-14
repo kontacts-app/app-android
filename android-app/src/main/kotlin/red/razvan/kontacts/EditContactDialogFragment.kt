@@ -1,4 +1,4 @@
-package red.razvan.contactsmultiplatform
+package red.razvan.kontacts
 
 import android.app.Dialog
 import android.content.Context
@@ -14,7 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.parcelize.Parcelize
-import red.razvan.contactsmultiplatform.databinding.EditContactDialogContentBinding
+import red.razvan.kontacts.databinding.EditContactDialogContentBinding
 
 class EditContactDialogFragment : DialogFragment() {
     private var _binding: EditContactDialogContentBinding? = null

@@ -1,11 +1,11 @@
-package red.razvan.contactsmultiplatform
+package red.razvan.kontacts
 
 import android.app.Application
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import red.razvan.contactsmultiplatform.repository.ContactId
-import red.razvan.contactsmultiplatform.repository.ContactsRepository
+import red.razvan.kontacts.repository.ContactId
+import red.razvan.kontacts.repository.ContactsRepository
 
 class ContactsApplication : Application() {
     override fun onCreate() {

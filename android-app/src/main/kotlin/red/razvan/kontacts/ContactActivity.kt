@@ -1,4 +1,4 @@
-package red.razvan.contactsmultiplatform
+package red.razvan.kontacts
 
 import android.content.Context
 import android.content.Intent
@@ -12,8 +12,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import red.razvan.contactsmultiplatform.databinding.ContactActivityBinding
-import red.razvan.contactsmultiplatform.repository.ContactId
+import red.razvan.kontacts.databinding.ContactActivityBinding
+import red.razvan.kontacts.repository.ContactId
 
 class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityCallbacks {
     private val id: ContactId by lazy {

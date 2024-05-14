@@ -1,4 +1,4 @@
-package red.razvan.contactsmultiplatform
+package red.razvan.kontacts
 
 import android.content.Context
 import android.view.inputmethod.InputMethodManager

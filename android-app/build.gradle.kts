@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "red.razvan.contactsmultiplatform"
+    namespace = "red.razvan.kontacts"
 
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 

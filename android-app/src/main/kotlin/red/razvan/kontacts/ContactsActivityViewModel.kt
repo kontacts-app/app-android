@@ -1,11 +1,11 @@
-package red.razvan.contactsmultiplatform
+package red.razvan.kontacts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
-import red.razvan.contactsmultiplatform.repository.ContactsRepository
-import red.razvan.contactsmultiplatform.repository.NewContact
+import red.razvan.kontacts.repository.ContactsRepository
+import red.razvan.kontacts.repository.NewContact
 
 class ContactsActivityViewModel(
     private val repository: ContactsRepository,

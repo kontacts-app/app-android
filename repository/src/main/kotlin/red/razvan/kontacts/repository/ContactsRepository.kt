@@ -1,4 +1,4 @@
-package red.razvan.contactsmultiplatform.repository
+package red.razvan.kontacts.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

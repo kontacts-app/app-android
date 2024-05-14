@@ -1,4 +1,4 @@
-package red.razvan.contactsmultiplatform.repository
+package red.razvan.kontacts.repository
 
 import java.util.UUID
 
