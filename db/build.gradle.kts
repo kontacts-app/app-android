@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -25,7 +26,6 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.android.tools.desugar)
 
-    api(libs.kotlinx.coroutines.android)
-    api(projects.client)
-    api(projects.db)
+    api(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 }

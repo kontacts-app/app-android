@@ -1,65 +1,57 @@
 package red.razvan.kontacts.repository
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import red.razvan.kontacts.client.ContactsClient
+import red.razvan.kontacts.db.ContactsDao
+import red.razvan.kontacts.db.DatabaseTransactionRunner
 
 class ContactsRepository(
     private val client: ContactsClient,
+    private val databaseTransactionRunner: DatabaseTransactionRunner,
+    private val contactsDao: ContactsDao,
 ) {
-    private val contacts: MutableStateFlow<Map<ContactId, Contact>> =
-        MutableStateFlow(emptyMap())
-
     suspend fun refreshContacts() {
-        val contacts =
+        val remoteContacts =
             client
                 .getAll()
-                .map { it.toModel() }
-        this.contacts.emit(contacts.associateBy { it.id })
+        databaseTransactionRunner {
+            contactsDao.deleteAll()
+            contactsDao.insert(remoteContacts.map { it.toLocal() })
+        }
     }
 
     suspend fun add(newContact: NewContact): ContactId {
-        val created =
-            client.addNewContact(newContact = newContact.toRemote())
-                .toModel()
-        contacts.update { value ->
-            value + (created.id to Contact(id = created.id, name = created.name))
-        }
-        return created.id
+        val remote = client.addNewContact(newContact = newContact.toRemote())
+        val local = remote.toLocal()
+        contactsDao.insert(local)
+        return ContactId(value = local.id)
     }
 
     suspend fun removeById(id: ContactId) {
         client.deleteById(id.toRemote())
-        contacts.update { contacts ->
-            contacts - id
-        }
+        contactsDao.deleteById(id.toLocal())
     }
 
     suspend fun update(contact: Contact) {
-        val updated =
+        val remote =
             client
                 .updateById(id = contact.id.toRemote(), contact = RemoteNewContact(name = contact.name))
-                .toModel()
-        contacts.update { contacts ->
-            contacts + (updated.id to updated)
-        }
+        val local = remote.toLocal()
+        contactsDao.update(local)
     }
 
     fun observeById(id: ContactId): Flow<Contact?> =
-        contacts
-            .map { contacts ->
-                contacts[id]
-            }
+        contactsDao
+            .observeById(id = id.toLocal())
+            .map { it?.toModel() }
 
     fun observeSections(): Flow<List<ContactsSection>> =
-        contacts
+        contactsDao
+            .observeSortedByName()
             .map { contacts ->
                 contacts
-                    .values
-                    .asSequence()
-                    .sortedBy(Contact::name)
+                    .map { it.toModel() }
                     .groupBy { contact ->
                         contact.name.first()
                     }

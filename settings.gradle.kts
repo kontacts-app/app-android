@@ -20,4 +20,4 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "kontacts-android"
 
-include(":android-app", ":repository", ":client")
+include(":android-app", ":repository", ":client", ":db")
