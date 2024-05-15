@@ -2,12 +2,12 @@ package red.razvan.kontacts.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import red.razvan.kontacts.client.ContactsClient
+import red.razvan.kontacts.client.KontactsClient
 import red.razvan.kontacts.db.ContactsDao
 import red.razvan.kontacts.db.DatabaseTransactionRunner
 
 class ContactsRepository(
-    private val client: ContactsClient,
+    private val client: KontactsClient,
     private val databaseTransactionRunner: DatabaseTransactionRunner,
     private val contactsDao: ContactsDao,
 ) {

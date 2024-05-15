@@ -2,7 +2,7 @@ package red.razvan.kontacts.client
 
 import kotlinx.coroutines.delay
 
-class ContactsClient {
+class KontactsClient {
     private val contacts =
         mockContacts
             .associateBy { it.id }
