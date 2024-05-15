@@ -23,6 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import red.razvan.kontacts.databinding.ContactListItemBinding
 import red.razvan.kontacts.databinding.ContactsActivityBinding
 import red.razvan.kontacts.repository.Contact
+import red.razvan.kontacts.repository.ContactId
 
 class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.ActivityCallbacks {
     private val viewModel: ContactsActivityViewModel by viewModel()
@@ -41,9 +42,7 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
 
         val adapter =
             ContactListItemsAdapter {
-                startActivity(
-                    ContactActivity.newIntent(context = this@ContactsActivity, id = it.id),
-                )
+                navigateToContactDetail(id = it.id)
             }
 
         with(binding) {
@@ -99,6 +98,32 @@ class ContactsActivity : AppCompatActivity(), EditContactDialogFragment.Activity
                     }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .loading
+                    .collect { loading ->
+                        binding
+                            .linearProgressIndicator
+                            .visibility = if (loading) View.VISIBLE else View.GONE
+                    }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .navigateToContactDetailAction
+                    .collect { id ->
+                        navigateToContactDetail(id = id)
+                    }
+            }
+        }
+    }
+
+    private fun navigateToContactDetail(id: ContactId) {
+        startActivity(
+            ContactActivity.newIntent(context = this, id = id),
+        )
     }
 
     private sealed interface ContactListItem {

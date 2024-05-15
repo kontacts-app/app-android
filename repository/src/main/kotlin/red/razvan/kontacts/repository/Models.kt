@@ -1,13 +1,11 @@
 package red.razvan.kontacts.repository
 
-import java.util.UUID
-
 data class ContactId(
-    val value: String = UUID.randomUUID().toString(),
+    val value: String,
 )
 
 data class Contact(
-    val id: ContactId = ContactId(),
+    val id: ContactId,
     val name: String,
 )
 

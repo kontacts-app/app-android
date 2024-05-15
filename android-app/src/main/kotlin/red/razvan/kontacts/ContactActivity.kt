@@ -3,6 +3,7 @@ package red.razvan.kontacts
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
@@ -51,6 +52,34 @@ class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityC
                     }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .navigateToContactAction
+                    .collect { id ->
+                        startActivity(newIntent(context = this@ContactActivity, id = id))
+                        finish()
+                    }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .navigateUpAction
+                    .collect {
+                        finish()
+                    }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .loading
+                    .collect { loading ->
+                        binding.linearProgressIndicator.visibility = if (loading) View.VISIBLE else View.GONE
+                    }
+            }
+        }
     }
 
     private fun showDeleteContactDialog() {
@@ -63,7 +92,6 @@ class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityC
             .setPositiveButton(getString(R.string.delete_button)) { dialog, _ ->
                 viewModel.deleteContact()
                 dialog.dismiss()
-                finish()
             }
             .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
@@ -93,8 +121,5 @@ class ContactActivity : AppCompatActivity(), EditContactDialogFragment.ActivityC
 
     override fun onContactDialogFlowCompleted(contactName: String) {
         viewModel.editContact(contactName = contactName)
-        // The toolbar refresh is not working, so we restart the activity
-        startActivity(newIntent(context = this, id = id))
-        finish()
     }
 }

@@ -1,4 +1,4 @@
-package red.razvan.kontacts.repository
+package red.razvan.kontacts.client
 
 internal val mockContacts =
     listOf(
@@ -6,9 +6,7 @@ internal val mockContacts =
         Contact(name = "Sara"),
         Contact(name = "Dario"),
         Contact(name = "Daniele"),
-        Contact(name = "Matteo"),
         Contact(name = "Marco"),
         Contact(name = "Gianni"),
         Contact(name = "Francesco"),
-        Contact(name = "Stefano"),
     )

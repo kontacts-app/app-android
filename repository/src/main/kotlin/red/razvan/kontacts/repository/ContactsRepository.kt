@@ -4,27 +4,46 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import red.razvan.kontacts.client.ContactsClient
 
-class ContactsRepository {
+class ContactsRepository(
+    private val client: ContactsClient,
+) {
     private val contacts: MutableStateFlow<Map<ContactId, Contact>> =
-        MutableStateFlow(mockContacts.associateBy(Contact::id))
+        MutableStateFlow(emptyMap())
 
-    fun add(newContact: NewContact) {
-        val id = ContactId()
-        contacts.update { value ->
-            value + (id to Contact(id = id, name = newContact.name))
-        }
+    suspend fun refreshContacts() {
+        val contacts =
+            client
+                .getAll()
+                .map { it.toModel() }
+        this.contacts.emit(contacts.associateBy { it.id })
     }
 
-    fun removeById(id: ContactId) {
+    suspend fun add(newContact: NewContact): ContactId {
+        val created =
+            client.addNewContact(newContact = newContact.toRemote())
+                .toModel()
+        contacts.update { value ->
+            value + (created.id to Contact(id = created.id, name = created.name))
+        }
+        return created.id
+    }
+
+    suspend fun removeById(id: ContactId) {
+        client.deleteById(id.toRemote())
         contacts.update { contacts ->
             contacts - id
         }
     }
 
-    fun update(contact: Contact) {
+    suspend fun update(contact: Contact) {
+        val updated =
+            client
+                .updateById(id = contact.id.toRemote(), contact = RemoteNewContact(name = contact.name))
+                .toModel()
         contacts.update { contacts ->
-            contacts + (contact.id to contact)
+            contacts + (updated.id to updated)
         }
     }
 
